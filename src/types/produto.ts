@@ -3,7 +3,9 @@ export type Produto = {
     nome: string;
     descricaoCurta: string;
     descricaoLonga: string;
-    precoPorkg : number;
+    precoPorKg : number;
     imagem : string;
-    categoriaIds : number[]
+    categoriaIds : Number[]
+    ativo : boolean
+    categoria : Number
 }

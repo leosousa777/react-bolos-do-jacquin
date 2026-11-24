@@ -1,4 +1,4 @@
-import type { Produto } from "../types/produto";
+import type { Produto, ProdutoRequest } from "../types/produto";
 import { api } from "./api";
 
 const produtoService = {
@@ -9,7 +9,28 @@ async listar(){
 async buscar (id: number){
     const resposta = await api.get (`produtos/${id}`)
     return resposta.data;
+},
+async cadastrar(dados: ProdutoRequest, arquivo: File){
+    const formulario = new FormData();
+    formulario.append('nome', dados.nome)
+    formulario.append('descricaoCurta', dados.descricaoCurta);
+    formulario.append('descricaoLonga', dados.descricaoLonga);
+    formulario.append('precoporkg', String(dados.precoPorKg))
+    formulario.append('ativo', String(dados.ativo))
+    formulario.append('categoriaIds', JSON.stringify(dados.categoriaIds))
+    formulario.append('imagem', arquivo);
+    const reposta = await api.post<Produto>('produtos', formulario);
+    return reposta.data;
+},
+async atualizar(id: number, dados: ProdutoRequest){
+    const reposta = await api.put<Produto>(`produtos/${id}`, dados);
+    return reposta.data;
+},
+async excluir(id:number){
+    await api.delete(`produtos/${id}`)
 }
+
+
 }
 
 export default produtoService;

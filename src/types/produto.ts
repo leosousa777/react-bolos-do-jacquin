@@ -9,3 +9,5 @@ export type Produto = {
     ativo : boolean
     categoria : Number
 }
+
+export type ProdutoRequest = Omit<Produto, 'ic'>
